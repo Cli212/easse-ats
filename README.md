@@ -1,5 +1,6 @@
 # EASSE-ATS
-This package builds upon [**EASSE**](https://www.aclweb.org/anthology/D19-3009/) (**E**asier **A**utomatic **S**entence **S**implification **E**valuation), which is a Python 3 package aiming to facilitate and standardise automatic evaluation and comparison of Sentence Simplification systems. ([*What is Sentence Simplification?*](https://www.mitpressjournals.org/doi/full/10.1162/coli_a_00370)). We introduce two classes of metrics BERNICE and SAM for evaluating the cohesion and meaning preservation of simplified text.
+
+This package builds upon [**EASSE**](https://github.com/feralvam/easse) (**E**asier **A**utomatic **S**entence **S**implification **E**valuation), which is a Python 3 package aiming to facilitate and standardise automatic evaluation and comparison of Sentence Simplification systems. ([*What is Sentence Simplification?*](https://www.mitpressjournals.org/doi/full/10.1162/coli_a_00370)). We introduce two classes of new metrics BERNICE and SAM for evaluating the cohesion and meaning preservation of simplified text.
 
 ### Features
 
@@ -14,26 +15,32 @@ This package builds upon [**EASSE**](https://www.aclweb.org/anthology/D19-3009/)
 [1]: The SARI version in EASSE fixes inconsistencies and bugs in the original version. See the dedicated section for more details.
 
 ## Installation
+
 ### Requirements
 
-Python$\geq$3.6 is required.
+Python > 3.5 is required.
 
 ### Installing from Source
 
 Install EASSE-ATS by running:
 
-```
-git clone https://github.com/feralvam/easse.git
-cd easse
+```shell
+git clone https://github.com/Cli212/easse-ats.git
+cd easse-ats
 bash setup.sh
 ```
 
 This will make `easse` available on your system but it will use the sources from the local clone
 you made of the source repository.
 
+## Explain BERNICE and SAM
+
+
+
 ## Running EASSE
 
 ### CLI
+
 Once EASSE has been installed, you can run the command-line interface with the `easse` command.
 
 ```
@@ -50,6 +57,7 @@ Commands:
 ```
 
 #### easse evaluate
+
 ```
 $ easse evaluate -h
 Usage: easse evaluate [OPTIONS]
@@ -74,7 +82,9 @@ Options:
   -q, --quality_estimation        Perform quality estimation.
   -h, --help                      Show this message and exit.
 ```
+
 Example with the [ACCESS](https://github.com/facebookresearch/access) system outputs:
+
 ```
 easse evaluate -t turkcorpus_test -m 'sam,bleu,sari,fkgl' -q < easse/resources/data/system_outputs/turkcorpus/test/ACCESS
 ```
@@ -82,6 +92,7 @@ easse evaluate -t turkcorpus_test -m 'sam,bleu,sari,fkgl' -q < easse/resources/d
 <img src="https://github.com/feralvam/easse/blob/master/demo/evaluate.gif">
 
 #### easse report
+
 ```
 $ easse report -h
 Usage: easse report [OPTIONS]
@@ -104,10 +115,13 @@ Options:
   -p, --report_path PATH          Path to the output HTML report.
   -h, --help                      Show this message and exit.
 ```
+
 Example:
+
 ```
 easse report -t turkcorpus_test < easse/resources/data/system_outputs/turkcorpus/test/ACCESS
 ```
+
 <img src="https://github.com/feralvam/easse/blob/master/demo/report.gif">
 
 ### Python
@@ -122,19 +136,22 @@ corpus_sam(orig_sents=["About 95 species are currently accepted.", "The cat perc
             sam='align')
 Out[1]: 33.17472563619544
 ```
+
 ## Differences with original SARI implementation
 
 The version of SARI fixes inconsistencies and bugs that were present in the original implementation. The main differences are:
+
 1) The original SARI implementation applies normalisation (NIST style tokenization and rejoin ‘s, ‘re ...) only on the prediction and references but not on the source sentence (see STAR.java file). This results in incorrect ngram additions or deletions. EASSE applies the same normalization to source, prediction and references.
 2) The original SARI implementation takes tokenized text as input that are then tokenized a second time. This also causes discrepancies between the tokenization of the training set and the evaluation set. EASSE uses untokenized text that is then tokenized uniformly at runtime, during evaluation. This allows for training models on raw text without worrying about matching the evaluation tokenizer.
 3) The original JAVA implementation had a silent overflow bug where ngram statistics would go beyond the maximum limit for integers and silently start over from the minimum value. This caused incorrect SARIs when rating too many sentences but did not raise an error.
 
 ## Licence
+
 EASSE is licenced under the GNU General Public License v3.0.
 
 ## Citation
 
-If you use EASSE-ATS in your research, please cite [EASSE: Easier Automatic Sentence Simplification Evaluation](https://aclanthology.org/D19-3009/)
+If you use EASSE-ATS in your research, please cite [EASSE: Easier Automatic Sentence Simplification Evaluation](https://aclanthology.org/D19-3009/) and [BERNICE and SAM]() (To be published)
 
 ```
 @inproceedings{alva-manchego-etal-2019-easse,
